@@ -1,0 +1,101 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.rdg.plugins</groupId>
+  <artifactId>maven-mkbconf-plugin</artifactId>
+  <packaging>maven-plugin</packaging>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <name>maven-mkbconf-plugin Maven Mojo</name>
+  <description>A maven plugin to enable the use of maven to create bconf files for use in Rainbow/Longhorn.
+  </description>
+
+
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <okapi.version>0.30</okapi.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>okapi-release</id>
+      <name>Okapi Release</name>
+      <url>http://repository-okapi.forge.cloudbees.com/release/</url>
+    </repository>
+  </repositories>
+ 
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <version>2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-project</artifactId>
+      <version>2.0.8</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.okapi</groupId>
+      <artifactId>okapi-core</artifactId>
+      <version>${okapi.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.okapi.applications</groupId>
+      <artifactId>okapi-application-rainbow</artifactId>
+      <version>${okapi.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>macosx</artifactId>
+          <groupId>org.eclipse.swt.cocoa</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>macosx-x86_64</artifactId>
+          <groupId>org.eclipse.swt.cocoa</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>macosx</artifactId>
+          <groupId>org.eclipse.swt.carbon</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>ppc</artifactId>
+          <groupId>org.eclipse.swt.gtk.linux</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>x86</artifactId>
+          <groupId>org.eclipse.swt.gtk.linux</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>x86_64</artifactId>
+          <groupId>org.eclipse.swt.gtk.linux</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>sparc</artifactId>
+          <groupId>org.eclipse.swt.gtk.solaris</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>ppc</artifactId>
+          <groupId>org.eclipse.swt.motif.aix</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>x86</artifactId>
+          <groupId>org.eclipse.swt.win32.win32</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>x86</artifactId>
+          <groupId>org.eclipse.swt.wpf.win32</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
