@@ -9,23 +9,23 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>example</artifactId>
+  <artifactId>bconf-plugin-use-example</artifactId>
+  <packaging>bconf</packaging>
+
   <build>
   <plugins>
   <plugin>
     <groupId>org.rdg.plugins</groupId>
     <artifactId>maven-mkbconf-plugin</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-<!--
     <extensions>true</extensions>
--->
     <configuration>
       <rainbowSettingsFile>src/main/resource/settings.rnb</rainbowSettingsFile>
     </configuration>
     <executions>
       <execution>
         <goals>
-          <goal>bconf</goal>
+          <goal>generateBconf</goal>
         </goals>
       </execution>
     </executions>

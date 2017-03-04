@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Goal which touches a timestamp file.
  *
- * @goal bconf
+ * @goal generateBconf
  *
  * @phase package
  */
@@ -64,6 +64,16 @@ public class CreateBconfMojo extends AbstractMojo
 	 */
 	private String pipelineFile;
 
+    /**
+     * Any filter mapping to include in the bconf. Must be of the format: <code>
+     *     <filterMapping>
+     *         <extension>doc</extension><filterConfig>okf_xmlstream@cdata</filterConfig>
+     *     </filterMapping>
+     * </code>
+     */
+	private List filterMappings;
+
+
 	public void execute()
 		throws MojoExecutionException
 	{
@@ -82,7 +92,7 @@ public class CreateBconfMojo extends AbstractMojo
 	}
 
 	private List getDefaultIncludes() {
-		List result = new ArrayList();
+		List<String> result = new ArrayList<String>();
 		result.add(getMavenProject().getBasedir().getName() + "/**/*.xml");
 
 		return result;
