@@ -70,8 +70,10 @@ public class CreateBconfMojo extends AbstractMojo
      *         <extension>doc</extension><filterConfig>okf_xmlstream@cdata</filterConfig>
      *     </filterMapping>
      * </code>
+	 *
+	 * @parameter
      */
-	private List filterMappings;
+	private List<FilterMapping> filterMappings;
 
 
 	public void execute()
@@ -88,6 +90,19 @@ public class CreateBconfMojo extends AbstractMojo
 		}
 		if (getPipelineFile()  != null && getRainbowSettingsFile() != null) {
 			throw new MojoExecutionException("Only one of pipelineFile or rainbowSettingsFile may be set.");
+		}
+
+		if(filterMappings != null) {
+
+			for (FilterMapping filterMapping : filterMappings) {
+				getLog().info(filterMapping.toString());
+				if(filterMapping.getExtension() == null || filterMapping.getFilterConfig() == null) {
+					throw new MojoExecutionException("Each filterMapping must have both the extension and the "
+						+ "filterConfig value set.");
+				}
+
+			}
+
 		}
 	}
 

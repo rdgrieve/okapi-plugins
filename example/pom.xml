@@ -21,6 +21,12 @@
     <extensions>true</extensions>
     <configuration>
       <rainbowSettingsFile>src/main/resource/settings.rnb</rainbowSettingsFile>
+      <filterMappings>
+        <filterMapping>
+          <extension>.xml</extension>
+          <filterConfig>okf_xmlstream@cdata</filterConfig>
+        </filterMapping>
+      </filterMappings>
     </configuration>
     <executions>
       <execution>
