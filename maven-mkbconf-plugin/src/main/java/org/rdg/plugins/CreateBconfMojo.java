@@ -44,6 +44,13 @@ public class CreateBconfMojo extends AbstractMojo
 	private MavenProject mavenProject;
 
 	/**
+	 * Files to include.
+	 *
+	 * @parameter
+	 */
+	private List includes;
+
+	/**
 	 * The name and location of the rainbow settings files.
 	 *
 	 * @parameter expression="${bconf.rainbowSettingsFile}"
@@ -106,6 +113,13 @@ public class CreateBconfMojo extends AbstractMojo
 		return targetFile;
 	}
 
+	/**
+	 * Gets the includes listed in the project's POM.
+	 * @return The includes for the project.
+	 */
+	public List getIncludes() {
+		return includes;
+	}
 
 	/**
 	 * Gets the rainbow settings filename.
