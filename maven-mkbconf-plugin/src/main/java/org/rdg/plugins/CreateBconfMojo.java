@@ -1,11 +1,13 @@
 package org.rdg.plugins;
 
+import net.sf.okapi.common.plugins.PluginsManager;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.rdg.plugins.bconf.PipelineBconfExporter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -75,6 +77,22 @@ public class CreateBconfMojo extends AbstractMojo
 	{
 		checkConfiguration();
 		getLog().info("Path to rainbowFile: " + rainbowSettingsFile.getAbsolutePath());
+
+
+		PluginsManager pluginsManager = new PluginsManager();
+		//TODO if there are jars to include create a workspace in the build directory to temporarily copy them into
+		//so that they can be automatically discovered, the alternative is to list the jars as dependencies and to use
+		//mavens artifactRepository to pull them in.
+
+		if (getPipelineFile() !=  null) {
+
+			//PipelineBconfExporter bconfExporter = new PipelineBconfExporter()
+
+		} else {
+			//getRainbowSettingsFile();
+		}
+
+
 	}
 
 	private void checkConfiguration() throws MojoExecutionException
