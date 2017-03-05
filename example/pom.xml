@@ -20,7 +20,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <extensions>true</extensions>
     <configuration>
-      <rainbowSettingsFile>src/main/resource/settings.rnb</rainbowSettingsFile>
+      <rainbowSettingsFile>src/main/resources/settings.rnb</rainbowSettingsFile>
       <filterMappings>
         <filterMapping>
           <extension>.xml</extension>

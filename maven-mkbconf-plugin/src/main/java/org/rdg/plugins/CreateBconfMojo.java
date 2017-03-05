@@ -7,7 +7,9 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
+import org.rdg.plugins.bconf.BconfExporter;
 import org.rdg.plugins.bconf.PipelineBconfExporter;
+import org.rdg.plugins.bconf.RainbowSettingsBconfExporter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ public class CreateBconfMojo extends AbstractMojo
 	 * Output filename.
 	 */
 	@Parameter( defaultValue = "${project.build.finalName}", required = true )
-	private String targetFile;
+	private String targetFileName;
 
 	/**
 	 * Location of the output directory.
@@ -55,7 +57,7 @@ public class CreateBconfMojo extends AbstractMojo
 	 * The name and location of the pipeline files.
 	 */
 	@Parameter(property = "bconf.pipelineFile")
-	private String pipelineFile;
+	private File pipelineFile;
 
     @Parameter( property = "bconf.filterConfigurationDir", defaultValue = "${basedir}/src/main/resources")
     private File filterConfigurationDir;
@@ -84,15 +86,44 @@ public class CreateBconfMojo extends AbstractMojo
 		//so that they can be automatically discovered, the alternative is to list the jars as dependencies and to use
 		//mavens artifactRepository to pull them in.
 
+		BconfExporter bconfExporter;
+		File fileToExport;
+		targetDir.mkdirs();
+		File targetFile = getTargetFile();
 		if (getPipelineFile() !=  null) {
-
-			//PipelineBconfExporter bconfExporter = new PipelineBconfExporter()
+			fileToExport = getPipelineFile();
+			bconfExporter = new PipelineBconfExporter(getMavenProject().getBasedir(),
+				pluginsManager, filterConfigurationDir.getPath(), targetFile.getPath());
 
 		} else {
-			//getRainbowSettingsFile();
+			fileToExport = getRainbowSettingsFile();
+			bconfExporter = new RainbowSettingsBconfExporter(getMavenProject().getBasedir(),
+				pluginsManager, filterConfigurationDir.getPath(), targetFile.getPath());
 		}
 
+		getLog().info("Using file " + fileToExport.getPath() + " to create a batch configuration file");
+		bconfExporter.export(fileToExport.getPath(), pluginsManager);
 
+		if (!targetFile.exists()) {
+			throw new MojoExecutionException(
+				"Bconf file not created at " + targetFile.getPath());
+		}
+
+		getMavenProject().getArtifact().setFile(targetFile);
+		/**
+		 * TODO check if I need to create an artifact directly and add it to the maven project since its a new
+		 * packaging type
+		 *         Artifact attachedArtifact = artifactFactory.createArtifactWithClassifier(
+		 mavenProject.getGroupId(), mavenProject.getArtifactId(), mavenProject.getVersion(),
+		 "bconf", classifier);
+		 attachedArtifact.setFile(artifactFile);
+		 mavenProject.addAttachedArtifact(attachedArtifact);
+		 */
+
+	}
+
+	private File getTargetFile() {
+		return new File(targetDir.getPath() + File.separator + targetFileName + ".bconf");
 	}
 
 	private void checkConfiguration() throws MojoExecutionException
@@ -147,7 +178,7 @@ public class CreateBconfMojo extends AbstractMojo
 	 * Gets the pipeline filename.
 	 * @return The pipeline filename.
 	 */
-	public String getPipelineFile()
+	public File getPipelineFile()
 	{
 		return pipelineFile;
 	}

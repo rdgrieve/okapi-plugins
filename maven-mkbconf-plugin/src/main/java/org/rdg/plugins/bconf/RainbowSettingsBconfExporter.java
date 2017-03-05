@@ -25,8 +25,8 @@ public class RainbowSettingsBconfExporter implements BconfExporter
     private final String bconfPath;
     private final File baseDirectory;
 
-    public RainbowSettingsBconfExporter(File baseDirectory, PluginsManager plManager, String bconfPath, String
-        filterConfigPath)
+    public RainbowSettingsBconfExporter(File baseDirectory, PluginsManager plManager, String filterConfigPath,
+        String bconfPath)
     {
         this.baseDirectory = baseDirectory;
         this.filterConfigPath = filterConfigPath;
@@ -41,17 +41,15 @@ public class RainbowSettingsBconfExporter implements BconfExporter
         Project project = new Project(lm);
         try {
             project.load(pathToFile);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new MojoExecutionException("Couldn't load project from " + pathToFile, e);
         }
 
         FilterConfigurationUtils filterConfigurationUtils = new FilterConfigurationUtils();
         FilterConfigurationMapper fcMapper = filterConfigurationUtils.getFilterMapper(filterConfigPath, plManager);
 
-        PipelineWrapper pipelineWrapper = new PipelineWrapper(fcMapper, baseDirectory.getPath(),
-            plManager, baseDirectory.getPath(), baseDirectory.getPath(),
-            null, null, null);
+        PipelineWrapper pipelineWrapper = new PipelineWrapper(fcMapper, baseDirectory.getPath(), plManager,
+            baseDirectory.getPath(), baseDirectory.getPath(), null, null, null);
         pipelineWrapper.addFromPlugins(plManager);
 
         String pln = project.getUtilityParameters("currentProjectPipeline");
@@ -66,5 +64,6 @@ public class RainbowSettingsBconfExporter implements BconfExporter
         BatchConfiguration bconfig = new BatchConfiguration();
         System.out.println("Writing batch configuration to " + bconfPath);
         bconfig.exportConfiguration(bconfPath, pipelineWrapper, fcMapper, inputFiles);
+
     }
 }

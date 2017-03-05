@@ -23,8 +23,8 @@ public class PipelineBconfExporter implements BconfExporter
     private final String bconfPath;
     private final File baseDirectory;
 
-    public PipelineBconfExporter(File baseDirectory, PluginsManager plManager, String bconfPath, String
-        filterConfigPath)
+    public PipelineBconfExporter(File baseDirectory, PluginsManager plManager, String filterConfigPath,
+        String bconfPath)
     {
         this.baseDirectory = baseDirectory;
         this.filterConfigPath = filterConfigPath;
@@ -41,9 +41,8 @@ public class PipelineBconfExporter implements BconfExporter
         // However, it will not break the build.
         FilterConfigurationMapper fcMapper = filterConfigurationUtils.getFilterMapper(filterConfigPath, plManager);
 
-        PipelineWrapper pipelineWrapper = new PipelineWrapper(fcMapper, baseDirectory.getPath(),
-            plManager, baseDirectory.getPath(), baseDirectory.getPath(),
-            null, null, null);
+        PipelineWrapper pipelineWrapper = new PipelineWrapper(fcMapper, baseDirectory.getPath(), plManager,
+            baseDirectory.getPath(), baseDirectory.getPath(), null, null, null);
         pipelineWrapper.addFromPlugins(plManager);
 
         pipelineWrapper.load(pathToFile);
