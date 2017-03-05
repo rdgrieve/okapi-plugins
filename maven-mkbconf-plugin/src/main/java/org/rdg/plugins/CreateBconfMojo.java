@@ -2,6 +2,9 @@ package org.rdg.plugins;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 import java.io.File;
@@ -9,60 +12,51 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Goal which touches a timestamp file.
- *
- * @goal generateBconf
- *
- * @phase package
+ * Mojo which outputs a bconf file.
  */
+@Mojo(name = "generateBconf", defaultPhase = LifecyclePhase.PACKAGE)
 public class CreateBconfMojo extends AbstractMojo
 {
 
 	/**
 	 * Output filename.
-	 * 
-	 * @parameter expression="${project.build.finalName}"
-	 * @required
 	 */
+	@Parameter( defaultValue = "${project.build.finalName}", required = true )
 	private String targetFile;
 
 	/**
 	 * Location of the output directory.
-	 * 
-	 * @parameter expression="${project.build.directory}"
-	 * @required
 	 */
+	@Parameter( defaultValue = "${project.build.directory}", required = true )
 	private File targetDir;
 
 	/**
-	 * The maven project.
-	 *
-	 * @parameter expression="${project}"
-	 * @required
-	 * @readonly
-	 * */
+	 * The current project instance.
+	 */
+	@Parameter( defaultValue = "${project}", readonly = true, required = true )
 	private MavenProject mavenProject;
 
 	/**
 	 * Files to include.
 	 *
-	 * @parameter
 	 */
+	@Parameter
 	private List includes;
 
 	/**
 	 * The name and location of the rainbow settings files.
-	 *
-	 * @parameter expression="${bconf.rainbowSettingsFile}"
 	 */
+	@Parameter(property = "bconf.rainbowSettingsFile")
 	private File rainbowSettingsFile;
 
 	/**
 	 * The name and location of the pipeline files.
-	 *
-	 * @parameter expression="${bconf.pipelineFile}"
 	 */
+	@Parameter(property = "bconf.pipelineFile")
 	private String pipelineFile;
+
+    @Parameter( property = "bconf.filterConfigurationDir", defaultValue = "${basedir}/src/main/resources")
+    private File filterConfigurationDir;
 
     /**
      * Any filter mapping to include in the bconf. Must be of the format: <code>
@@ -71,8 +65,8 @@ public class CreateBconfMojo extends AbstractMojo
      *     </filterMapping>
      * </code>
 	 *
-	 * @parameter
      */
+    @Parameter
 	private List<FilterMapping> filterMappings;
 
 
@@ -120,30 +114,6 @@ public class CreateBconfMojo extends AbstractMojo
 	 */
 	public MavenProject getMavenProject() {
 		return mavenProject;
-	}
-
-	/**
-	 * Gets the location of the output directory.
-	 * @return The location of the output directory.
-	 */
-	public File getTargetDir() {
-		return targetDir;
-	}
-
-	/**
-	 * Gets the output filename.
-	 * @return The output filename.
-	 */
-	public String getTargetFile() {
-		return targetFile;
-	}
-
-	/**
-	 * Gets the includes listed in the project's POM.
-	 * @return The includes for the project.
-	 */
-	public List getIncludes() {
-		return includes;
 	}
 
 	/**
