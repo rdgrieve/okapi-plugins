@@ -13,10 +13,11 @@
   </properties>
 
   <modules>
-	<module>maven-mkbconf-plugin</module>
+    <module>maven-mkbconf-plugin</module>
     <module>example</module>
+    <module>exampleFromPipeline</module>
   </modules>
-  
+
   <repositories>
     <repository>
       <id>okapi-release</id>
